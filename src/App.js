@@ -1,46 +1,38 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import Directory from './components/directory/directory.component';
 
-import HomePage from './pages/homepage/homepage.component';
-import ShopPage from './pages/shop/shop.component';
-import CheckoutPage from './pages/checkout/checkout.component';
-import Header from './components/header/header.component';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import { selectCurrentUser } from './redux/user/user.selectors';
+const App = () => {
 
-import './App.css';
+  const categories = [
+    {
+      id: 1,
+      title: "hats",
+      imageUrl: "https://i.ibb.co/cvpntL1/hats.png"
+    },
+    {
+      id: 2,
+      title: "jackets",
+      imageUrl: "https://i.ibb.co/px2tCc3/jackets.png"
+    },
+    {
+      id: 3,
+      title: "sneakers",
+      imageUrl: "https://i.ibb.co/0jqHpnp/sneakers.png"
+    },
+    {
+      id: 4,
+      title: "womens",
+      imageUrl: "https://i.ibb.co/GCCdy8t/womens.png"
+    },
+    {
+      id: 5,
+      title: "mens",
+      imageUrl: "https://i.ibb.co/R70vBrQ/men.png"
+    }
+  ]
 
-class App extends React.Component {
-
-  unsubscribeFromAuth = null;
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
-    return (
-      <div>
-        <Header />
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/shop' component={ShopPage} />
-          <Route exact path='/checkout' component={CheckoutPage} />
-          <Route exact path='/signin' render={() => this.props.currentUser ? 
-            (<Redirect to='/' />) 
-            : 
-            (<SignInAndSignUpPage />)} 
-            />
-        </Switch>
-      </div>
-    );
-  }
+  return (
+    <Directory categories={categories} />
+  );
 }
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-});
-
-export default connect(mapStateToProps)(App);
+export default App;
