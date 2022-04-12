@@ -4,17 +4,17 @@
   "private": true,
   "homepage": "https://Silvertassen.github.io/e-commerce-website",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "firebase": "^8.8.0",
+    "@testing-library/jest-dom": "5.16.1",
+    "@testing-library/react": "12.1.2",
+    "@testing-library/user-event": "13.5.0",
+    "firebase": "9.6.6",
     "gh-pages": "^3.2.3",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.0",
     "react-stripe-checkout": "^2.6.3",
     "redux": "^4.1.1",
     "redux-logger": "^3.0.6",
@@ -23,7 +23,7 @@
     "redux-thunk": "^2.4.1",
     "reselect": "^4.0.0",
     "styled-components": "^5.3.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

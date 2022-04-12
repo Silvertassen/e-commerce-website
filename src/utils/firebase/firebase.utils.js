@@ -1,8 +1,20 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { 
+    getAuth, 
+    signInWithRedirect, 
+    signInWithPopup, 
+    GoogleAuthProvider, 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+} from 'firebase/auth';
+import { 
+    getFirestore, 
+    doc, 
+    getDoc, 
+    setDoc 
+} from 'firebase/firestore';
 
-const config = {
+const firebaseConfig = {
     apiKey: "AIzaSyCx36v0nStihZvBLov6hM6Yq4vzwYU6krM",
     authDomain: "crwn-db-437fe.firebaseapp.com",
     projectId: "crwn-db-437fe",
@@ -10,33 +22,61 @@ const config = {
     messagingSenderId: "672407530906",
     appId: "1:672407530906:web:24b804135eed085b411e23",
     measurementId: "G-BQQ3MKHSRZ"
-  }
+}
 
-  export const createUserProfileDocument = async (userAuth, additionalData) => {
-    if (!userAuth) return;
+const firebaseApp = initializeApp(firebaseConfig);
 
-    const userRef = firestore.doc(`users/${userAuth.uid}`);
-    const snapShot = await userRef.get();
+const provider = new GoogleAuthProvider();
 
-    if (!snapShot.exists) {
+provider.setCustomParameters({
+    prompt: "select_account"
+});
+
+export const auth = getAuth();
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider);
+
+export const db = getFirestore();
+
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
+    if (!userAuth) return; 
+
+    const userDocRef = doc(db, 'users', userAuth.uid);
+
+    const userSnapshot = await getDoc(userDocRef);
+    
+    if (!userSnapshot.exists()) {
         const { displayName, email } = userAuth;
         const createdAt = new Date();
 
         try {
-            await userRef.set({
+            await setDoc(userDocRef, {
                 displayName,
                 email,
                 createdAt,
-                ...additionalData
+                ...additionalInformation
             });
-        } catch (error) {
-            console.log('error creating user', error.message);
+        } catch(error) {
+            console.log('error creating the user', error.message);
         }
     }
 
-    return userRef;
-  }
+    return userDocRef;
+}
 
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+
+    return await createUserWithEmailAndPassword(auth, email, password);
+}
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+
+    return await signInWithEmailAndPassword(auth, email, password);
+}
+
+  /*
   export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
       const collectionRef = firestore.collection(collectionKey);
       const batch = firestore.batch();
@@ -86,3 +126,4 @@ const config = {
   export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
   export default firebase;
+  */
