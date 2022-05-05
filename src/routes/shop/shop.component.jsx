@@ -1,14 +1,23 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import CollectionPageContainer from '../collection/collection.container';
-import CollectionsOverviewContainer from '../../components/collections-overview/collections-overview.container';
+import { useContext } from 'react';
+
+import { ProductsContext } from '../../contexts/products.context';
+import ProductCard from '../../components/product-card/product-card.component';
 
 import './shop.styles.scss';
-import { connect } from 'react-redux';
-import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 
-class ShopPage extends React.Component {
+const Shop = () => {
 
+    const {products} = useContext(ProductsContext);
+
+    return (
+        <div className="products-container">
+            {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+            ))}
+        </div>
+    )
+
+    /*
     componentDidMount() {
         const { fetchCollectionsStart } = this.props;
         fetchCollectionsStart();
@@ -30,10 +39,7 @@ class ShopPage extends React.Component {
                 </div>
         );
     }
+    */
 }
 
-const mapDispatchToProps = dispatch => ({
-    fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
-})
-
-export default connect(null,mapDispatchToProps)(ShopPage);
+export default Shop;
